@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from "react";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { filterDrinksService, getRecipeService } from "../services/drink.service";
 
 const DrinksContext = createContext();
@@ -8,7 +8,7 @@ const DrinksProvider = ({ children }) => {
     const [drinks, setDrinks] = useState([]);
     const [modal, setModal] = useState(false);
     const [drinkId, setDrinkId] = useState(null);
-    const [recipe, setRecipe] = useState({});
+    const [recipe, setRecipe] = useState([]);
     const [loading, setLoading] = useState(false);
 
     function handleModalClick() {
@@ -58,7 +58,7 @@ const DrinksProvider = ({ children }) => {
         getDrink,
     };
 
-    return <DrinksContext.Provider value={{ contextValues }}>{children}</DrinksContext.Provider>;
+    return <DrinksContext.Provider value={contextValues}>{children}</DrinksContext.Provider>;
 };
 DrinksProvider.propTypes = {
     children: PropTypes.node.isRequired,

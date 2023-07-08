@@ -5,7 +5,7 @@ const getRecipeService = async (drinkId) => {
     try {
         const url = `${apiUrl}lookup.php?i=${drinkId}`;
         const { data } = await axios.get(url);
-        return data.drinks[0] || [];
+        return data.drinks[0];
     } catch (error) {
         console.error(error);
         throw new Error("Hubo un error al obtener la receta.");

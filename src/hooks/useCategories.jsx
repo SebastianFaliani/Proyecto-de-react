@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { CategoriesContext } from "../context/CategoriesProvider";
 
-export function useCategories() {
+export default function useCategories() {
     return useContext(CategoriesContext);
 }

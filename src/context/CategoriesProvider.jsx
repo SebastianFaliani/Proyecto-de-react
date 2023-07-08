@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { getCategoriesService } from "../services/categories.service";
 
 const CategoriesContext = createContext();

@@ -6,7 +6,7 @@ export const getCategoriesService = async () => {
     try {
         const url = `${apiUrl}list.php?c=list`;
         const { data } = await axios.get(url);
-        return data.drinks || [];
+        return data.drinks ?? [];
     } catch (error) {
         console.error(error);
         throw new Error("Hubo un error al obtener las categorias.");

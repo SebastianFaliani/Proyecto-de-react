@@ -1,9 +1,9 @@
 import { Col, Card, Button } from "react-bootstrap";
-import { useDrinks } from "../../hooks/useDrinks";
+import useDrinks from "../../hooks/useDrinks";
 import PropTypes from "prop-types";
 
 export default function DrinkCard({ drink }) {
-    const { handleModalClick, handleDrinkIdClick } = useDrinks;
+    const { handleModalClick, handleDrinkIdClick } = useDrinks();
     return (
         <Col md={6} lg={3}>
             <Card clasName="mb-4">
