@@ -1,3 +1,4 @@
+import { CartProvider } from "./context/CartProvider";
 import { CategoriesProvider } from "./context/CategoriesProvider";
 import { DrinksProvider } from "./context/DrinksProvider";
 import MainLayout from "./layout";
@@ -8,7 +9,9 @@ function App() {
         <MainLayout>
             <DrinksProvider>
                 <CategoriesProvider>
-                    <AppRoutes />
+                    <CartProvider>
+                        <AppRoutes />
+                    </CartProvider>
                 </CategoriesProvider>
             </DrinksProvider>
         </MainLayout>
