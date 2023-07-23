@@ -1,91 +1,19 @@
-import { useReducer, createContext } from "react";
+import { useReducer, createContext, useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
+import { actionTypes } from "../actions/cart.actions";
+import { cartInitialStates, cartReducer } from "../reducers/cart.reducer";
+import { getTotalPricesItems } from "../utils/cart.utils";
 
 const CartContext = createContext();
 
-const cartInitialStates = {
-    cartItems: [],
-};
-
-const actionTypes = {
-    ADD_TO_CART: "ADD_TO_CART",
-    REMOVE_ONE_FROM_CART: "REMOVE_ONE_FROM_CART",
-    REMOVE_ALL_FROM_CART: "REMOVE_ALL_FROM_CART",
-    CLEAR_CART: "CLEAR_CART",
-};
-
-function cartReducer(state, { type, payload }) {
-    const { idDrink } = payload;
-    let drinkInCart = state.cartItems.find((drink) => drink.idDrink == idDrink);
-    switch (type) {
-        case actionTypes.ADD_TO_CART:
-            //saber si el producto a agregar esta en el carrito
-            if (drinkInCart) {
-                //afirmativo, incremento la cantidad en 1
-                let cartItemUpdate = state.cartItems.map((drink) => {
-                    if (drink.idDrink === idDrink) {
-                        return {
-                            ...drink,
-                            quantity: drink.quantity++,
-                        };
-                    }
-                    return drink;
-                });
-                return {
-                    ...state,
-                    cartItems: cartItemUpdate,
-                };
-            } else {
-                //negativo, agrego el producto con cantidad 1
-                payload.quantity = 1;
-                return {
-                    ...state,
-                    cartItems: [...state.cartItems, payload],
-                };
-            }
-        case actionTypes.REMOVE_ONE_FROM_CART:
-            if (drinkInCart.quantity > 1) {
-                //afirmativo, decremento la cantidad en 1
-                let cartItemUpdate = state.cartItems.map((drink) => {
-                    if (drink.idDrink === idDrink) {
-                        return {
-                            ...drink,
-                            quantity: drink.quantity--,
-                        };
-                    }
-                    return drink;
-                });
-                return {
-                    ...state,
-                    cartItems: cartItemUpdate,
-                };
-            } else {
-                //negativo, agrego el producto con cantidad 1
-                let cartItemUpdate = state.cartItems.filter((drink) => drink.idDrink !== idDrink);
-                return {
-                    ...state,
-                    cartItems: cartItemUpdate,
-                };
-            }
-        case actionTypes.REMOVE_ALL_FROM_CART:
-            if (drinkInCart) {
-                let cartItemUpdate = state.cartItems.filter((drink) => drink.idDrink !== idDrink);
-                return {
-                    ...state,
-                    cartItems: cartItemUpdate,
-                };
-            }
-            return state;
-        case actionTypes.CLEAR_CART:
-            return {
-                ...state,
-                cartItems: [],
-            };
-    }
-}
-
 function CartProvider({ children }) {
     const [state, dispatch] = useReducer(cartReducer, cartInitialStates);
+    const [orderTotal, setOrderTotal] = useState(0);
+
+    useEffect(() => {
+        let total = getTotalPricesItems(state.cartItems).reduce((a, b) => a + b, 0);
+        setOrderTotal(total);
+    }, [state]);
 
     function addToCart(drink) {
         dispatch({ type: actionTypes.ADD_TO_CART, payload: drink });
@@ -103,12 +31,18 @@ function CartProvider({ children }) {
         dispatch({ type: actionTypes.CLEAR_CART });
     }
 
+    function sendOrder() {
+        alert(JSON.stringify(state));
+    }
+
     const cartValues = {
         cart: state,
         addToCart,
         removeOneFromCart,
         removeAllFromCart,
         clearCart,
+        sendOrder,
+        orderTotal,
     };
 
     return <CartContext.Provider value={cartValues}>{children}</CartContext.Provider>;

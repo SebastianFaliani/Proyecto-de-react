@@ -8,7 +8,7 @@ export default function DrinkCard({ drink }) {
     const { addToCart } = useCart();
     return (
         <Col md={6} lg={3}>
-            <Card clasName="mb-4">
+            <Card className="mb-4">
                 <Card.Img variant="top" src={drink.strDrinkThumb} alt={`Imagen de ${drink.strDrink}`} />
 
                 <Card.Body>

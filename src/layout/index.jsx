@@ -3,16 +3,18 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import styles from "./MainLayout.module.css";
 import PropTypes from "prop-types";
+import { CartModal } from "../components/CartModal";
 
 export default function MainLayout({ children }) {
-  return (
-    <div className={styles.main}>
-      <Header />
-      <Container className="mt-5">{children}</Container>
-      <Footer />
-    </div>
-  );
+    return (
+        <div className={styles.main}>
+            <Header />
+            <Container className="mt-5">{children}</Container>
+            <CartModal />
+            <Footer />
+        </div>
+    );
 }
 MainLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
